@@ -1,0 +1,44 @@
+.login {
+    min-height:100vh;
+    background:url(/background.png);
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.login-app {
+    
+    background-color: white;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap:15px;
+    justify-content: flex-start;
+    border: none;
+    border-radius: 10px;
+}
+input{
+    padding: 7px;
+    border-radius: 10px 1px grey;
+}
+.create-btn{
+    padding: 10px;
+    border: 10px;
+    background-color: rgb(24, 137, 224);
+    color: white;
+    cursor: pointer;
+}
+.checkbox {
+    margin-right: 10px;
+    cursor: pointer;
+}
+label{
+    color: rgba(128, 128, 128, 0.775);
+}
+p{
+    color:black
+}
+span{
+    color:rgb(24, 137, 224) ;
+    cursor: pointer;;
+}
