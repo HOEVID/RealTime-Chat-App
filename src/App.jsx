@@ -16,6 +16,7 @@ const navigate = useNavigate();
     onAuthStateChanged(auth,async(user)=>{
    if(user){
     navigate('/chat')
+    comsole.log(user)
    }
    else{
     navigate('/')
