@@ -52,7 +52,7 @@ try{
 }
 catch(err){
     console.error(err)
-    toast.error(err.code);
+    toast.error(err.code.split('/')[1].split("-").join(""));
 }
 }
  

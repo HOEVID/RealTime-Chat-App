@@ -1,7 +1,7 @@
 import {React,useState} from 'react'
 import './Login.css'
 import assets from '../../assets/assets.js'
-import { signup } from '../../config/firebase.js'
+import { signup , login } from '../../config/firebase.js'
 const Login = () => {
 
     const [currState ,setCurrState] = useState("Sign up")
@@ -13,6 +13,9 @@ const Login = () => {
      event.preventDefault();
       if(currState==="Sign up"){
         signup(username,email,password)
+      }
+      else{
+        login(email,password)
       }
      }
 
@@ -38,10 +41,10 @@ const Login = () => {
             
             <div className="login-forgot">
                 {
-                 (currState === "Sign Up") ?
-                 <p className='login-toggle'>Already have an account? <span onClick={()=>setCurrState("Login")}>Login Here</span></p>
+                 (currState === "Sign up") ?
+                 <p className='login-toggle'>Already have an account? <span onClick={()=>setCurrState("Login")}  >Login Here</span></p>
                  :
-                 <p className='login-toggle'>Dont have an account? <span onClick={()=>setCurrState("Sign Up")}>Create Account Here</span></p>
+                 <p className='login-toggle'>Dont have an account? <span onClick={()=>setCurrState("Sign up")}>Create Account Here</span></p>
                 }
             
             
