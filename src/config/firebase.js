@@ -4,6 +4,8 @@ import { getAnalytics } from "firebase/analytics";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyABkP99PPyjyISzpdn6gb0CTwF2YWaAHtg",
@@ -20,7 +22,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth =getAuth(app)
 const db=getFirestore(app)
-const storage = getStorage(db)
+
 
 const signup = async(username,email,password)=>{
 try
@@ -40,6 +42,9 @@ try
     })
    }
    catch(err){
-    console.err(err);
+    console.error(err);
+    toast.error(err.code)
    }
 }
+
+export{signup}

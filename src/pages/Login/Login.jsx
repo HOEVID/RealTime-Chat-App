@@ -1,19 +1,33 @@
 import {React,useState} from 'react'
 import './Login.css'
 import assets from '../../assets/assets.js'
+import { signup } from '../../config/firebase.js'
 const Login = () => {
 
     const [currState ,setCurrState] = useState("Sign up")
+    const [username,setUsername]= useState("")
+    const [email,setEmail]= useState("")
+    const [password,setPassword]= useState("")
+
+     const onSubmitHandler=(event) =>{
+     event.preventDefault();
+      if(currState==="Sign up"){
+        signup(username,email,password)
+      }
+     }
+
+     
+ 
   return (
     <div>
         <div className='login'>
            <img src= {assets.logo_big} alt="" className='logo'/>
-           <form  className="login-app">
+           <form onSubmit={onSubmitHandler} className="login-app">
             <h2>{currState}</h2>
-            {( currState === "Sign up")? <input type= "text" placeholder='username'/> :null }
+            {( currState === "Sign up")? <input type= "text" placeholder='username' onChange={(e)=>setUsername(e.target.value)}/> :null }
             
-            <input type= "email" placeholder='email'/>
-            <input type= "password" placeholder='password'/>
+            <input type= "email" placeholder='email' onChange={(e)=>setEmail(e.target.value)}/>
+            <input type= "password" placeholder='password' onChange={(e)=>setPassword(e.target.value)}/>
             <button className='create-btn'>
                 
                 {currState=== "Sign up" ? "Create Account" :"Login Here"}</button>
