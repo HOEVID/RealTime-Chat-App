@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
@@ -42,8 +42,8 @@ try
     })
    }
    catch(err){
-    console.error(err);
-    toast.error(err.code)
+    console.error(err)
+    toast.error(err.code.split('/')[1].split("-").join(""));
    }
 }
 const login = async (email,password)=>{
@@ -56,5 +56,15 @@ catch(err){
 }
 }
  
+const logout = async()=>{
+    try{
+        await signOut(auth)
+    }
+    catch(error){
+        console.error(err)
+        toast.error(err.code.split('/')[1].split("-").join(""));
+    }
 
-export{signup,login}
+}
+
+export{signup,login,logout,db,auth}
