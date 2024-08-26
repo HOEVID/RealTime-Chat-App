@@ -35,7 +35,7 @@ try
         name:"",
         avatar:"",
         bio:"Hey,I am using Chat App",
-        lastseen:Date.now()
+        lastSeen:Date.now()
     })
     await setDoc(doc(db,"chats",user.uid),{
         chatData:[]
