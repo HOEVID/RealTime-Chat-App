@@ -22,6 +22,12 @@ if(input){
 const q = query(userRef,where("username","==",input.toLowerCase()))
   const querySnap = await getDocs(q);
   if(!querySnap.empty &&querySnap.docs[0].data().id!=userData.id){  //not display its own name
+    let userExist = false
+    chatData.map((user)=>{      // if user already have talked then will display in chats
+      if(user.rId === querySnap.docs[0].data().id)
+        userExist =true;
+    })
+    if (!userExist)
     setUser(querySnap.docs[0].data())
   }
   else{
@@ -101,17 +107,24 @@ const addChat = async()=>{
         <div onClick={addChat} className='friends add-user'> 
         <img src={user.avatar} alt ="" />
            <p>{user.name}</p>
+           
            </div>
+           
       :
-      Array(12).fill("").map((item,index)=>(
-        <div key={index} className="friends">
-        <img  src={assets.profile_img}/>
-        <div className='text'>
-          <p>Richard</p>
-          <span>Hello,How are you?</span>
-        </div>
-      </div>
-      ))
+      
+      chatData && chatData.length > 0 ? (
+        chatData.map((item, index) => (
+          <div key={index} className="friends">
+            <img src={item.userData?.avatar} alt="" />
+            <div className='text'>
+              <p>{item.userData?.name}</p>
+              <span>{item.lastMessage}</span>
+            </div>
+          </div>
+        ))
+      ) : (
+        <div>No chats available</div>
+      )
         }
         
       
