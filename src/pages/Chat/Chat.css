@@ -11,7 +11,8 @@
     background-color: aliceblue;
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
-    
-   
-
+}
+.loading{
+    color: white;
+    font: 50px;
 }
