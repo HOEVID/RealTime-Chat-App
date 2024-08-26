@@ -46,18 +46,18 @@ const loadUserData = async (uid)=>{
 // to load chat
   useEffect(()=>{
      if(userData){
-        const chatRef = (db,'chats',userData.id)
+        const chatRef = doc(db,'chats',userData.id)
 //on snapShot method like useEffects as soon as any changes calls fn again
        const unSub = onSnapshot(chatRef,async(res)=>{
-        const chatItem = res.data().chatData
+        const chatItems = res.data().chatData
         const tempData = [];
-        for(const item of chatItem){
+        for(const item of chatItems){
             const userRef = doc(db,"users",item.rId); // rId = receiver Id
             const userSnap = await getDoc(userRef)
             const userData = userSnap.data()
             tempData.push({...item,userData})
         }
-        setChatData(tempData.sort((a,b)=>b.updatedAt- a.updatedAt))
+        setChatData(tempData.sort((a,b)=>b.updatedAt - a.updatedAt))
        })
        return()=>{
         unSub();
