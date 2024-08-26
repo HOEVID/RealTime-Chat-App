@@ -79,7 +79,7 @@ onAuthStateChanged (auth,async(user)=>{
         <div className="profile-container">
        
             <form onSubmit={profileUpdate}>
-            <img className="logo-icon"src={ image?URL.createObjectURL(image):assets.logo_icon}  alt=""/>
+            <img className="logo-icon"src={ image?URL.createObjectURL(image):prevImage? prevImage :assets.logo_icon}  alt=""/>
                 <h2>Profile details</h2>
           
            

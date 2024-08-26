@@ -1,5 +1,5 @@
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { createContext, useState } from "react";
+import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
+import { createContext, useEffect, useState } from "react";
 import { auth, db } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
 export const AppContext = createContext();
@@ -43,6 +43,30 @@ const loadUserData = async (uid)=>{
     }
 
 }
+// to load chat
+  useEffect(()=>{
+     if(userData){
+        const chatRef = (db,'chats',userData.id)
+//on snapShot method like useEffects as soon as any changes calls fn again
+       const unSub = onSnapshot(chatRef,async(res)=>{
+        const chatItem = res.data().chatData
+        const tempData = [];
+        for(const item of chatItem){
+            const userRef = doc(db,"users",item.rId); // rId = receiver Id
+            const userSnap = await getDoc(userRef)
+            const userData = userSnap.data()
+            tempData.push({...item,userData})
+        }
+        setChatData(tempData.sort((a,b)=>b.updatedAt- a.updatedAt))
+       })
+       return()=>{
+        unSub();
+       }
+   
+    }          
+  },[userData])
+
+
     const value = {
        userData,setUserData,
        chatData,setChatData,
