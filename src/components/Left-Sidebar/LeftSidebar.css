@@ -60,6 +60,7 @@ justify-content: space-between;
     padding: 10px 20px;
     cursor: pointer;
     font-size: 13px;
+
  }
  
  .text p{
@@ -72,6 +73,7 @@ justify-content: space-between;
 
 .friends:hover{
     background-color: #077EFF;
+    
 }
 .ls-nav .menu{
     position: relative;
@@ -102,4 +104,8 @@ justify-content: space-between;
 }
 .menu:hover .sub-menu {
 display: block;
+}
+
+.friends p{
+    color: white;
 }
