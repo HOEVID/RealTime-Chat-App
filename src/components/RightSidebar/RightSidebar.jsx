@@ -8,7 +8,7 @@ const RightSidebar = () => {
         <div className="rs-profile">
             <img src={assets.profile_img} alt=""/>
             <h3>Richard</h3>
-            <p>Hey There I Am Richarf</p>
+            <p>Hey There I Am Richard</p>
         </div>
         <hr/>
         <div className="rs-media">

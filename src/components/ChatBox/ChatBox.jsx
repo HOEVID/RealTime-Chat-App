@@ -39,6 +39,7 @@ const ChatBox = () => {
           }
       })
     }
+    setInput("")
   }
   catch(err){
     console.error(err)
@@ -47,11 +48,23 @@ const ChatBox = () => {
   
  }
 
+ const convertTimestamp =(timestamp)=>{
+   let date = timestamp.toDate();
+   const hour =date.getHours();
+   const minutes = date.getMinutes();
+   if(hour>12){
+    return hour-12 +":"+ minutes+"PM"
+   }
+   else{
+    return hour +":"+ minutes+"AM"
+   }
+ }
+
 useEffect(()=>{
   if(messagesId){
     const unSub = onSnapshot(doc(db,"messages",messagesId),(res)=>{
       setMessages(res.data().messages.reverse())
-      console.log(res.data().messages.reverse())
+    
     })
     return ()=>{
       unSub();
@@ -67,27 +80,17 @@ useEffect(()=>{
             <img src={assets.help_icon}/>
         </div>
     <div className='chat-msg'>
-          <div className="s-msg">
-            <p className='msg'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi quasi quae praesentium quas doloribus optio harum deserunt assumenda iusto delectus totam, laudantium accusantium nulla in! Debitis sint voluptates labore laborum.</p>
-          <div>
-            <img src={assets.profile_img} />
-            <p>2.30pm</p>
-          </div>
-          </div>
-          <div className="s-msg">
-            <img className="msg-img" src={assets.pic1}/>
-          <div>
-            <img   src={assets.profile_img} />
-            <p>2.30pm</p>
-          </div>
-          </div>
-          <div className="r-msg">
-            <p className='msg'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi quasi quae praesentium quas doloribus optio harum deserunt assumenda iusto delectus totam, laudantium accusantium nulla in! Debitis sint voluptates labore laborum.</p>
-          <div>
-            <img src={assets.profile_img} />
-            <p>2.30pm</p>
-          </div>
-          </div>
+      {messages.map((msg,index)=>(
+       <div className={msg.sId === userData.id ? "s-msg" : "r-msg"}>
+       <p className='msg'>{msg.text}</p>
+     <div>
+       <img src={msg.sId === userData.id ? userData.avatar :chatUser.userData.avatar} />
+       <p>{convertTimestamp(msg.createdAt)}</p>
+     </div>
+     </div>
+      ))}
+         
+         
         </div>    
         <div className="chat-input">
             <input onChange={(e)=>setInput(e.target.value)} value={input} type="text" placeholder="send a message"/>
