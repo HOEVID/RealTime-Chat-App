@@ -1,27 +1,45 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import "./RightSidebar.css"
 import assets from '../../assets/assets'
 import { logout } from '../../config/firebase'
+import { AppContext } from '../../context/AppContext'
 const RightSidebar = () => {
-  return (
+const {chatUser,messages} = useContext(AppContext)
+const [messageImages,setMessageImages] = useState([])
+
+useEffect(()=>{
+ let tempVar =[];
+messages.map((msg)=>{
+    if(msg.image){
+tempVar.push(msg.image)
+    }
+})
+setMessageImages(tempVar)
+},[messages])
+
+  return  chatUser?(
     <div className="rs">
         <div className="rs-profile">
-            <img src={assets.profile_img} alt=""/>
-            <h3>Richard</h3>
-            <p>Hey There I Am Richard</p>
+            <img src={chatUser.userData.avatar} alt=""/>
+            <h3>c{chatUser.userData.name}</h3>
+            <p>{chatUser.userData.bio}</p>
         </div>
         <hr/>
         <div className="rs-media">
             <p >Media</p>
             <div>
-            <img src={assets.pic1} alt=""/>
-            <img src={assets.pic2} alt=""/>
-            <img src={assets.pic3} alt=""/>
-            <img src={assets.pic4} alt=""/>
-            <img src={assets.pic1} alt=""/>
+            {messageImages.map((url,index)=>(
+             <img onClick={()=>window.open(url)}key={index} src={url} alt="" />
+
+            ))}
             </div>
             <button onClick={()=>logout()}>logout</button>
         </div>
+    </div>
+  )
+  : (
+    <div className='rs'>
+        <button onClick={()=>logout()} >Logout</button>
     </div>
   )
 }
