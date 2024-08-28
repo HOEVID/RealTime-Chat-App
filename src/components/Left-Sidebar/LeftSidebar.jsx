@@ -2,7 +2,7 @@ import React, { useContext ,useState} from 'react'
 import  "./LeftSidebar.css"
 import assets from '../../assets/assets'
 import { useNavigate } from 'react-router-dom'
-import { arrayUnion, collection, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
+import { arrayUnion, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
 import { db } from '../../config/firebase'
 import { AppContext } from '../../context/AppContext'
 import { toast } from 'react-toastify'
@@ -82,9 +82,24 @@ const addChat = async()=>{
 }
 
 const setChat = async (item) =>{
- setChatUser(item)
- setMessagesId(item.messageId)
-}
+  try{
+    setChatUser(item)
+    setMessagesId(item.messageId)
+     const userChatsRef = doc(db,'chats',userData.id)
+    const userChatsSnapshot = await getDoc(userChatsRef)
+    const userChatsData = userChatsSnapshot.data()
+   const chatIndex = userChatsData.chatData.findIndex((c)=>c.messageId === item.messageId)
+   userChatsData.chatData[chatIndex].messageSeen =true;
+   await updateDoc (userChatsRef,{
+    chatData:userChatsData.chatData
+   })
+   }
+   catch(err){
+    console.log(err)
+    toast.error(err.message)
+   }
+  }
+ 
 
   return (
     <div className='ls'>
@@ -120,7 +135,7 @@ const setChat = async (item) =>{
       
       chatData && chatData.length > 0 ? (
         chatData.map((item, index) => (
-          <div onClick={()=>setChat(item)} key={index} className="friends">
+          <div onClick={()=>setChat(item)} key={index} className={`friends ${ item.messageSeen || item.messageId===messagesId ? "":"border" }`}>
             <img src={item.userData?.avatar} alt="" />
             <div className='text'>
               <p>{item.userData?.name}</p>
