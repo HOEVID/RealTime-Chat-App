@@ -24,7 +24,7 @@ setMessageImages(tempVar)
             <h3>c{chatUser.userData.name}</h3>
             <p>{chatUser.userData.bio}</p>
         </div>
-        <hr/>
+        <hr/>                               
         <div className="rs-media">
             <p >Media</p>
             <div>
