@@ -21,7 +21,7 @@ setMessageImages(tempVar)
     <div className="rs">
         <div className="rs-profile">
             <img src={chatUser.userData.avatar} alt=""/>
-            <h3>c{chatUser.userData.name}</h3>
+            <h3>{Date.now()-chatUser.userData.lastSeen<=70000 ?<img  className='dot' src={assets.green_dot} alt=""/>:null}{chatUser.userData.name} </h3>
             <p>{chatUser.userData.bio}</p>
         </div>
         <hr/>                               
