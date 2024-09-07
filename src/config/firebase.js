@@ -3,9 +3,9 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { getStorage } from "firebase/storage";
-import { doc, getDocs, getFirestore, setDoc } from "firebase/firestore";
+import { collection, doc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
 import { toast } from "react-toastify";
-import { useState } from "react";
+
 
 
 const firebaseConfig = {
@@ -73,7 +73,8 @@ const resetPass = async(email) =>{
         return null;
     }
     try{
-        const userRef = collection(db,"users")
+        
+        const userRef = collection(db,'users')
         const q = query(userRef,where("email","==",email));
         const querySnap = await getDocs(q);
         if(!querySnap.empty){
