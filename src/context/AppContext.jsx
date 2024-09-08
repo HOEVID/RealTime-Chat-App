@@ -14,6 +14,7 @@ const [chatData,setChatData] = useState(null)
 const [messagesId,setMessagesId] = useState(null)
 const [messages,setMessages] = useState([])
 const [chatUser,setChatUser] = useState(null)
+const [chatVisible,setchatVisible]= useState(false);
 
 const loadUserData = async (uid)=>{
     try{
@@ -75,8 +76,8 @@ const loadUserData = async (uid)=>{
        chatData,setChatData,
        loadUserData,messages,
        setMessages,messagesId,
-       setMessagesId,chatUser,setChatUser
-
+       setMessagesId,chatUser,setChatUser,
+       chatVisible,setchatVisible
     }
 return (
     <AppContext.Provider value = {value}>

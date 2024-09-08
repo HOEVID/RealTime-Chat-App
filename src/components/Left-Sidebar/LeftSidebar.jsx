@@ -1,4 +1,4 @@
-import React, { useContext ,useState} from 'react'
+import React, { useContext ,useEffect,useState} from 'react'
 import  "./LeftSidebar.css"
 import assets from '../../assets/assets'
 import { useNavigate } from 'react-router-dom'
@@ -8,7 +8,7 @@ import { AppContext } from '../../context/AppContext'
 import { toast } from 'react-toastify'
 const LeftSidebar = () => {
   const navigate = useNavigate()
-const {userData,chatData,chatUser,setChatUser,messagesId,setMessagesId} = useContext(AppContext)
+const {userData,chatData,chatUser,setChatUser,messagesId,setMessagesId,chatVisible,setchatVisible} = useContext(AppContext)
 const [user,setUser] = useState(null);
 const [showSearch,setShowSearch] = useState(false)
 
@@ -74,12 +74,34 @@ const addChat = async()=>{
         messageSeen:true
       })
     }) 
+    const uSnap = await getDoc(doc(db,'users',user.id));
+    const uData = uSnap.data();
+    setChat ({
+      messagesId:newMessageRef.id,
+      lastMessage:"",
+      rId:user.id,
+      updatedAt:Date.now(),
+      messageSeen:true,
+      userData:uData
+    })
+    setShowSearch(false)
+    setchatVisible(true)
   }
   catch(err){
     console.log(err)
     toast.error(err.code)
   }
 }
+useEffect(()=>{
+const updateChatUserData = async()=>{
+   if(chatUser){
+    const userRef = doc(db,'users',chatUser.userData.id);
+    const userSnap = await getDoc(userRef)
+    userData = userSnap.data();
+   }
+}
+updateChatUserData();
+},[chatData])
 
 const setChat = async (item) =>{
   try{
@@ -93,6 +115,7 @@ const setChat = async (item) =>{
    await updateDoc (userChatsRef,{
     chatData:userChatsData.chatData
    })
+   setchatVisible(true)
    }
    catch(err){
     console.log(err)
@@ -102,7 +125,7 @@ const setChat = async (item) =>{
  
 
   return (
-    <div className='ls'>
+    <div className={`ls ${chatVisible ?"hidden":""}`}>
       <div className="ls-top">
         <div className="ls-nav">
           <img  className='logo'src={assets.logo} />

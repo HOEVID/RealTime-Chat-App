@@ -42,3 +42,11 @@ span{
     color:rgb(24, 137, 224) ;
     cursor: pointer;;
 }
+
+@media(max-width:768px){
+    .login{
+        flex-direction:column ;
+        justify-content:center;
+        gap:30px;
+    }
+}

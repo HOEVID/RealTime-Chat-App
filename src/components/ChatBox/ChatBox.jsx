@@ -7,7 +7,7 @@ import { db } from '../../config/firebase'
 import { toast } from 'react-toastify'
 import upload from '../../lib/upload'
 const ChatBox = () => {
-  const { userData, messagesId, chatUser, messages, setMessages } = useContext(AppContext)
+  const { userData, messagesId, chatUser, messages, setMessages,chatVisible,setchatVisible } = useContext(AppContext)
   const [input, setInput] = useState("");
   const sendMessage = async () => {
 
@@ -111,11 +111,12 @@ const ChatBox = () => {
   }, [messagesId])
 
   return chatUser ? (
-    <div className='chat-box'  >
+    <div className={`chat-box${chatVisible?"":"hidden"}`}  >
       <div className="chat-user">
         <img src={chatUser.userData.avatar} alt="" />
         <p>{chatUser.userData.name} <img className='dot' src={assets.green_dot} /></p>
         <img src={assets.help_icon} />
+        <img oncClick={()=>setchatVisible(false)}src={assets.arrow_icon} className='arrow' alt=""/>
       </div>
       <div className='chat-msg'>
         {messages.map((msg, index) => (
@@ -147,7 +148,7 @@ const ChatBox = () => {
     </div>
   )
     :
-    <div className='chat-welcome'>
+    <div className={`chat-welcome ${chatVisible?"":"hidden"}`}>
       <img src={assets.logo_icon} alt="" />
       <p>Chat anytime , anywhere</p>
     </div>
